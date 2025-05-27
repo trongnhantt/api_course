@@ -33,10 +33,10 @@ public class CourseController {
         @ApiResponse(responseCode = "404", description = "Student not found")
     })
     @GetMapping("/student/{studentId}")
-    public ResponseEntity<List<Course>> getStudentCourses(
+    public ResponseEntity<List<Course>> getCoursesByStudentId(
             @Parameter(description = "ID of the student", required = true)
             @PathVariable String studentId) {
-        return ResponseEntity.ok(courseService.getStudentCourses(studentId));
+        return ResponseEntity.ok(courseService.getCoursesByStudentId(studentId));
     }
     
     @Operation(
@@ -84,7 +84,7 @@ public class CourseController {
     @GetMapping("/{courseId}")
     public ResponseEntity<Course> getCourseById(
             @Parameter(description = "ID of the course", required = true)
-            @PathVariable Long courseId) {
+            @PathVariable String courseId) {
         return ResponseEntity.ok(courseService.getCourseById(courseId));
     }
 } 

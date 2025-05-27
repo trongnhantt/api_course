@@ -4,6 +4,7 @@ import com.example.nt118.model.StudentProfileResponse;
 import com.example.nt118.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.text.SimpleDateFormat;
 
 @Service
 public class StudentService {
@@ -13,6 +14,7 @@ public class StudentService {
 
     public StudentProfileResponse getStudentProfile(String studentId) {
         StudentProfileResponse response = new StudentProfileResponse();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         
         try {
             return studentRepository.findByStudentId(studentId)
@@ -22,7 +24,7 @@ public class StudentService {
                     response.setStudentId(student.getStudentId());
                     response.setName(student.getName());
                     response.setEmail(student.getEmail());
-                    response.setDob(student.getDob());
+                    response.setDob(formatter.format(student.getDob()));
                     response.setAvatarUrl(student.getAvatarUrl());
                     response.setClassName(student.getClassName());
                     response.setRole("student");

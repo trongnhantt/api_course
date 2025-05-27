@@ -2,28 +2,48 @@ package com.example.nt118.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
+import java.util.Set;
 
 @Data
 @Entity
 @Table(name = "courses")
 public class Course {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
+    @Column(name = "course_id")
     private String courseId;
+
+    @Column(name = "course_name")
     private String courseName;
-    private Integer credits;
-    private String semester;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private String status; // Active, Completed, etc.
+
+    @Column(name = "credits")
+    private int credits;
+
+    @Column(name = "end_date")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date endDate;
+
+    @Column(name = "instructor")
     private String instructor;
+
+    @Column(name = "room")
     private String room;
-    private String schedule; // e.g. "Monday, Wednesday 8:00-9:30"
-    
-    @ManyToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
+
+    @Column(name = "schedule")
+    private String schedule;
+
+    @Column(name = "semester")
+    private String semester;
+
+    @Column(name = "start_date")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date startDate;
+
+    @Column(name = "status")
+    private String status;
+
+    // Quan hệ nhiều-nhiều với Student
+    @ManyToMany(mappedBy = "courses")
+    private Set<Student> students;
 } 

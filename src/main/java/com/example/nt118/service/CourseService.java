@@ -12,7 +12,7 @@ public class CourseService {
     @Autowired
     private CourseRepository courseRepository;
     
-    public List<Course> getStudentCourses(String studentId) {
+    public List<Course> getCoursesByStudentId(String studentId) {
         return courseRepository.findByStudentId(studentId);
     }
     
@@ -24,7 +24,7 @@ public class CourseService {
         return courseRepository.findByStudentIdAndSemester(studentId, semester);
     }
     
-    public Course getCourseById(Long courseId) {
+    public Course getCourseById(String courseId) {
         return courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course not found"));
     }
