@@ -1,23 +1,36 @@
 package com.example.nt118.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import java.time.LocalDate;
+import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "deadlines")
+@Table(name = "deadline")
 public class Deadline {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-    
+
+    @Column(name = "title")
     private String title;
-    private String courseId;
-    private LocalDate dueDate;
+
+    @Column(name = "detail", columnDefinition = "TEXT")
+    private String detail;
+
+    @Column(name = "status")
     private String status;
-    
-    @ManyToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
+
+    @Column(name = "due_date")
+    @Temporal(TemporalType.DATE)
+    private Date dueDate;
+
+    @Column(name = "course_id")
+    private String courseId;
 } 
