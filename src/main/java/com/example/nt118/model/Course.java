@@ -1,12 +1,16 @@
 package com.example.nt118.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 import java.util.Set;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "courses")
 public class Course {

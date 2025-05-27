@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/deadlines")
 @CrossOrigin(origins = "*")
+@Tag(name = "Deadline Management", description = "APIs for managing deadlines")
 public class DeadlineController {
     @Autowired
     private DeadlineService deadlineService;
