@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Giáo viên</title>
+    <link th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/webjars/font-awesome/6.5.1/css/all.min.css}" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">Hệ thống quản lý khóa học</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2>Xin chào, <span th:text="${teacher.name}"></span></h2>
+        
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h3>Danh sách môn học</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Mã môn</th>
+                                <th>Tên môn</th>
+                                <th>Học kỳ</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="course : ${courses}">
+                                <td th:text="${course.courseId}"></td>
+                                <td th:text="${course.courseName}"></td>
+                                <td th:text="${course.semester}"></td>
+                                <td>
+                                    <a th:href="@{/teacher/deadlines/course/{courseId}(courseId=${course.courseId})}" 
+                                       class="btn btn-primary btn-sm">
+                                        <i class="fas fa-clock"></i> Deadline
+                                    </a>
+                                    <a th:href="@{/teacher/grades/course/{courseId}(courseId=${course.courseId})}" 
+                                       class="btn btn-success btn-sm">
+                                        <i class="fas fa-graduation-cap"></i> Điểm
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
+</body>
+</html> 

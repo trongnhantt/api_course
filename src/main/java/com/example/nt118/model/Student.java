@@ -1,15 +1,19 @@
 package com.example.nt118.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import java.util.Date;
 import java.util.Set;
+import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "students")
 public class Student {
-      @Id
+    @Id
     @Column(name = "student_id")
     private String studentId;
 
@@ -38,5 +42,20 @@ public class Student {
         joinColumns = @JoinColumn(name = "student_id"),
         inverseJoinColumns = @JoinColumn(name = "course_id")
     )
+    @JsonBackReference
     private Set<Course> courses;
+
+    // Override equals và hashCode chỉ dựa trên studentId
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return Objects.equals(studentId, student.studentId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(studentId);
+    }
 } 

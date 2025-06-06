@@ -11,7 +11,10 @@ public class Grade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private String courseId;
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private Course course;
+
     private String courseName;
     private Double grade;
     private String status;
