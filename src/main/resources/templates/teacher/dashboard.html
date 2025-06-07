@@ -43,6 +43,10 @@
                                        class="btn btn-success btn-sm">
                                         <i class="fas fa-graduation-cap"></i> Điểm
                                     </a>
+                                    <a th:href="@{/teacher/notifications/course/{courseId}(courseId=${course.courseId})}" 
+                                       class="btn btn-info btn-sm">
+                                        <i class="fas fa-bell"></i> Thông báo
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>

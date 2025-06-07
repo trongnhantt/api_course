@@ -545,29 +545,16 @@ SET completed_credits = 11,  -- Current semester credits
     estimated_graduation = '2026-06'
 WHERE student_id = '20520123';
 
--- Insert sample notifications for courses
-INSERT INTO notifications (title, content, created_at, course_id, type) VALUES
--- CS101 - Introduction to Programming
-('Thông báo lịch học tuần tới', 'Lớp sẽ học về Arrays và Functions vào tuần tới. Vui lòng đọc trước tài liệu.', CURRENT_TIMESTAMP, 'CS101', 'ANNOUNCEMENT'),
-('Deadline Assignment 1', 'Hạn nộp Assignment 1 là 23:59 ngày 15/03/2024. Vui lòng nộp đúng hạn.', CURRENT_TIMESTAMP, 'CS101', 'DEADLINE'),
-('Kết quả Assignment 1', 'Kết quả Assignment 1 đã được cập nhật. Vui lòng kiểm tra trên hệ thống.', CURRENT_TIMESTAMP, 'CS101', 'GRADE'),
+-- Insert sample notifications for CS101
+INSERT INTO notifications (title, content, created_at, course_id, type, status) VALUES
+('Thông báo lịch học tuần tới', 'Lớp sẽ học về Arrays và Functions vào tuần tới. Vui lòng đọc trước tài liệu.', CURRENT_TIMESTAMP, 'CS101', 'ANNOUNCEMENT', 'ACTIVE'),
+('Deadline Assignment 1', 'Hạn nộp Assignment 1 là 23:59 ngày 15/03/2024. Vui lòng nộp đúng hạn.', CURRENT_TIMESTAMP, 'CS101', 'DEADLINE', 'ACTIVE'),
+('Kết quả Assignment 1', 'Kết quả Assignment 1 đã được cập nhật. Vui lòng kiểm tra trên hệ thống.', CURRENT_TIMESTAMP, 'CS101', 'GRADE', 'ACTIVE');
 
--- CS102 - Data Structures
-('Thay đổi lịch học', 'Lớp sẽ học bù vào thứ 7 tuần này do nghỉ lễ.', CURRENT_TIMESTAMP, 'CS102', 'ANNOUNCEMENT'),
-('Deadline Project 1', 'Hạn nộp Project 1 là 23:59 ngày 20/03/2024. Vui lòng nộp đúng hạn.', CURRENT_TIMESTAMP, 'CS102', 'DEADLINE'),
-('Kết quả Quiz 1', 'Kết quả Quiz 1 đã được cập nhật. Vui lòng kiểm tra trên hệ thống.', CURRENT_TIMESTAMP, 'CS102', 'GRADE'),
-
--- CS103 - Database Systems
-('Thông báo lịch thi giữa kỳ', 'Lịch thi giữa kỳ sẽ diễn ra vào ngày 25/03/2024. Vui lòng chuẩn bị tốt.', CURRENT_TIMESTAMP, 'CS103', 'ANNOUNCEMENT'),
-('Deadline Lab 2', 'Hạn nộp Lab 2 là 23:59 ngày 18/03/2024. Vui lòng nộp đúng hạn.', CURRENT_TIMESTAMP, 'CS103', 'DEADLINE'),
-('Kết quả Lab 1', 'Kết quả Lab 1 đã được cập nhật. Vui lòng kiểm tra trên hệ thống.', CURRENT_TIMESTAMP, 'CS103', 'GRADE');
-
--- Mark some notifications as read by student 20520123
+-- Mark notifications as read by student 20520123
 INSERT INTO notification_read_status (notification_id, student_id) VALUES
-(1, '20520123'), -- Đã đọc thông báo lịch học tuần tới của CS101
-(2, '20520123'), -- Đã đọc deadline Assignment 1 của CS101
-(4, '20520123'), -- Đã đọc thay đổi lịch học của CS102
-(7, '20520123'); -- Đã đọc thông báo lịch thi giữa kỳ của CS103 
+(1, '20520123'), -- Đã đọc thông báo lịch học tuần tới
+(2, '20520123'); -- Đã đọc deadline Assignment 1
 
 -- Insert future attendance records for student 20520123
 INSERT INTO attendance (id, course_id, student_id, session_date, status, note)

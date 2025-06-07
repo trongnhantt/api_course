@@ -30,6 +30,9 @@ public class Notification {
     @Column(nullable = false)
     private NotificationType type;
 
+    @Column(nullable = false)
+    private String status;
+
     @ManyToMany
     @JoinTable(
         name = "notification_read_status",
@@ -37,4 +40,9 @@ public class Notification {
         inverseJoinColumns = @JoinColumn(name = "student_id")
     )
     private List<Student> readBy;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
 } 
