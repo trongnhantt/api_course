@@ -1,1 +1,95 @@
- 
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Deadlines - Course Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Debug Info -->
+        <div class="alert alert-info">
+            <p>Course ID: <span th:text="${course.courseId}"></span></p>
+            <p>Course Name: <span th:text="${course.courseName}"></span></p>
+            <p>Number of Deadlines: <span th:text="${deadlines.size()}"></span></p>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Deadlines for Course: <span th:text="${course.courseId}"></span></h2>
+            <a th:href="@{/teacher/deadlines/course/{courseId}/new(courseId=${course.courseId})}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> New Deadline
+            </a>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Deadline Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${deadlines.empty}">
+                                <td colspan="5" class="text-center">No deadlines found</td>
+                            </tr>
+                            <tr th:each="deadline : ${deadlines}">
+                                <td th:text="${deadline.title}"></td>
+                                <td th:text="${deadline.description}"></td>
+                                <td th:text="${#temporals.format(deadline.deadlineDate, 'dd/MM/yyyy HH:mm')}"></td>
+                                <td>
+                                    <span th:class="${deadline.deadlineDate.isBefore(#temporals.createNow()) ? 'badge bg-danger' : 'badge bg-success'}"
+                                          th:text="${deadline.deadlineDate.isBefore(#temporals.createNow()) ? 'Expired' : 'Active'}">
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a th:href="@{/teacher/deadlines/{id}/edit(id=${deadline.id})}" 
+                                           class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a th:href="@{/teacher/deadlines/{id}/submissions(id=${deadline.id})}" 
+                                           class="btn btn-sm btn-outline-info">
+                                            <i class="fas fa-list"></i> Submissions
+                                        </a>
+                                        <button type="button" 
+                                                class="btn btn-sm btn-outline-danger"
+                                                th:onclick="'deleteDeadline(' + ${deadline.id} + ')'">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:inline="javascript">
+        function deleteDeadline(id) {
+            if (confirm('Are you sure you want to delete this deadline?')) {
+                $.ajax({
+                    url: '/api/deadlines/' + id,
+                    type: 'DELETE',
+                    success: function() {
+                        window.location.reload();
+                    },
+                    error: function() {
+                        alert('Error deleting deadline');
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html> 

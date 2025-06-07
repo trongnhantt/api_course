@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Thêm/Sửa Deadline - <span th:text="${course.name}"></span></title>
+    <title>Thêm/Sửa Deadline - <span th:text="${course.courseName}"></span></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
@@ -15,7 +15,7 @@
 
     <div class="container mt-4">
         <h2 th:text="${deadline.id == null ? 'Thêm Deadline mới' : 'Sửa Deadline'}"></h2>
-        <h4>Môn học: <span th:text="${course.name}"></span></h4>
+        <h4>Môn học: <span th:text="${course.courseName}"></span></h4>
         
         <div class="mb-3">
             <a th:href="@{/teacher/deadlines/course/{courseId}(courseId=${course.courseId})}" class="btn btn-secondary">
@@ -23,10 +23,10 @@
             </a>
         </div>
 
-        <form th:action="${deadline.id == null ? 
-            '/teacher/deadlines/course/' + ${course.courseId} : 
-            '/teacher/deadlines/' + ${deadline.id}}" 
+        <form th:action="@{/teacher/deadlines/course/{courseId}(courseId=${course.courseId})}" 
               th:object="${deadline}" method="post" class="needs-validation" novalidate>
+            
+            <input type="hidden" th:field="*{course}" th:value="${course.courseId}">
             
             <div class="row mb-3">
                 <div class="col-md-6">
@@ -54,24 +54,32 @@
 
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <label for="submissionType" class="form-label">Loại nộp</label>
+                    <label for="submissionType" class="form-label">Loại bài tập</label>
                     <select class="form-select" id="submissionType" th:field="*{submissionType}" required>
-                        <option value="FILE">File</option>
-                        <option value="URL">URL</option>
-                        <option value="TEXT">Text</option>
+                        <option value="ASSIGNMENT">Bài tập</option>
+                        <option value="EXAM">Kiểm tra</option>
+                        <option value="PROJECT">Đồ án</option>
+                        <option value="HOMEWORK">Bài tập về nhà</option>
+                        <option value="PRESENTATION">Thuyết trình</option>
                     </select>
                 </div>
                 
                 <div class="col-md-4">
                     <label for="maxPoints" class="form-label">Điểm tối đa</label>
                     <input type="number" class="form-control" id="maxPoints" th:field="*{maxPoints}" 
-                           min="0" max="100" required>
+                           min="0" max="100" step="0.1" required>
+                    <div class="invalid-feedback">
+                        Điểm phải từ 0 đến 100
+                    </div>
                 </div>
                 
                 <div class="col-md-4">
                     <label for="weightPercentage" class="form-label">Trọng số (%)</label>
                     <input type="number" class="form-control" id="weightPercentage" th:field="*{weightPercentage}" 
-                           min="0" max="100" required>
+                           min="0" max="100" step="0.1" required>
+                    <div class="invalid-feedback">
+                        Trọng số phải từ 0 đến 100
+                    </div>
                 </div>
             </div>
 
@@ -79,9 +87,10 @@
                 <div class="col-md-4">
                     <label for="priority" class="form-label">Độ ưu tiên</label>
                     <select class="form-select" id="priority" th:field="*{priority}" required>
-                        <option value="LOW">Thấp</option>
-                        <option value="MEDIUM">Trung bình</option>
+                        <option value="URGENT">Khẩn cấp</option>
                         <option value="HIGH">Cao</option>
+                        <option value="MEDIUM">Trung bình</option>
+                        <option value="LOW">Thấp</option>
                     </select>
                 </div>
                 
@@ -96,10 +105,17 @@
                 <div class="col-md-4">
                     <label for="status" class="form-label">Trạng thái</label>
                     <select class="form-select" id="status" th:field="*{status}" required>
-                        <option value="ACTIVE">Đang hoạt động</option>
-                        <option value="INACTIVE">Không hoạt động</option>
+                        <option value="PENDING">Chờ nộp</option>
+                        <option value="COMPLETED">Đã hoàn thành</option>
+                        <option value="OVERDUE">Quá hạn</option>
                     </select>
                 </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="submissionUrl" class="form-label">URL nộp bài (nếu có)</label>
+                <input type="url" class="form-control" id="submissionUrl" th:field="*{submissionUrl}">
+                <div class="form-text">Để trống nếu không có URL nộp bài</div>
             </div>
 
             <div class="mb-3">

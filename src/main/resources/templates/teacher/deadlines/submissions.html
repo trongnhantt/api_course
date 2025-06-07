@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách bài nộp - <span th:text="${deadline.title}"></span></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">Hệ thống quản lý khóa học</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2>Danh sách bài nộp</h2>
+                <h4>Deadline: <span th:text="${deadline.title}"></span></h4>
+                <p class="text-muted">Môn học: <span th:text="${deadline.course.courseName}"></span></p>
+            </div>
+            <a th:href="@{/teacher/deadlines/course/{courseId}(courseId=${deadline.course.courseId})}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Quay lại danh sách
+            </a>
+        </div>
+
+        <!-- Thống kê -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Tổng số sinh viên</h5>
+                        <p class="card-text display-6" th:text="${totalStudents}">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Đã nộp</h5>
+                        <p class="card-text display-6" th:text="${submittedCount}">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Đã chấm</h5>
+                        <p class="card-text display-6" th:text="${gradedCount}">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-danger text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Chưa nộp</h5>
+                        <p class="card-text display-6" th:text="${notSubmittedCount}">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Danh sách bài nộp -->
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>MSSV</th>
+                                <th>Họ tên</th>
+                                <th>Thời gian nộp</th>
+                                <th>Trạng thái</th>
+                                <th>Điểm</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${submissions.empty}">
+                                <td colspan="6" class="text-center">Chưa có bài nộp nào</td>
+                            </tr>
+                            <tr th:each="submission : ${submissions}">
+                                <td th:text="${submission.student.studentId}"></td>
+                                <td th:text="${submission.student.name}"></td>
+                                <td th:text="${#temporals.format(submission.submitDate, 'dd/MM/yyyy HH:mm')}"></td>
+                                <td>
+                                    <span th:class="${submission.status == T(com.example.nt118.model.DeadlineSubmission.SubmissionStatus).GRADED ? 'badge bg-success' : 
+                                                    submission.status == T(com.example.nt118.model.DeadlineSubmission.SubmissionStatus).SUBMITTED ? 'badge bg-warning' : 
+                                                    'badge bg-danger'}"
+                                          th:text="${submission.status == T(com.example.nt118.model.DeadlineSubmission.SubmissionStatus).GRADED ? 'Đã chấm' : 
+                                                    submission.status == T(com.example.nt118.model.DeadlineSubmission.SubmissionStatus).SUBMITTED ? 'Đã nộp' : 
+                                                    'Chưa nộp'}">
+                                    </span>
+                                </td>
+                                <td th:text="${submission.grade != null ? submission.grade + '/' + deadline.maxPoints : '-'}"></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button type="button" 
+                                                class="btn btn-sm btn-outline-primary"
+                                                th:onclick="'viewSubmission(' + ${submission.id} + ')'">
+                                            <i class="fas fa-eye"></i> Xem
+                                        </button>
+                                        <button type="button" 
+                                                class="btn btn-sm btn-outline-success"
+                                                th:if="${submission.status == T(com.example.nt118.model.DeadlineSubmission.SubmissionStatus).SUBMITTED}"
+                                                th:onclick="'gradeSubmission(' + ${submission.id} + ')'">
+                                            <i class="fas fa-check"></i> Chấm điểm
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal xem chi tiết bài nộp -->
+    <div class="modal fade" id="viewSubmissionModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Chi tiết bài nộp</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="submissionDetails">
+                        <!-- Nội dung sẽ được load bằng JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal chấm điểm -->
+    <div class="modal fade" id="gradeSubmissionModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Chấm điểm bài nộp</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="gradeForm">
+                        <input type="hidden" id="submissionId">
+                        <div class="mb-3">
+                            <label for="grade" class="form-label">Điểm</label>
+                            <input type="number" class="form-control" id="grade" 
+                                   min="0" max="100" step="0.1" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="feedback" class="form-label">Nhận xét</label>
+                            <textarea class="form-control" id="feedback" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="submitGrade()">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:inline="javascript">
+        function viewSubmission(id) {
+            $.get('/api/deadlines/submissions/' + id, function(data) {
+                let html = `
+                    <div class="mb-3">
+                        <h6>Thông tin sinh viên</h6>
+                        <p>MSSV: ${data.student.studentId}</p>
+                        <p>Họ tên: ${data.student.name}</p>
+                    </div>
+                    <div class="mb-3">
+                        <h6>Thời gian nộp</h6>
+                        <p>${new Date(data.submitDate).toLocaleString()}</p>
+                    </div>
+                    <div class="mb-3">
+                        <h6>File đã nộp</h6>
+                        <ul>
+                            ${data.submittedFiles.map(file => `
+                                <li>
+                                    <a href="${file.fileUrl}" target="_blank">${file.fileName}</a>
+                                    (${(file.fileSize / 1024).toFixed(2)} KB)
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                    ${data.grade ? `
+                        <div class="mb-3">
+                            <h6>Điểm số</h6>
+                            <p>${data.grade}</p>
+                        </div>
+                        <div class="mb-3">
+                            <h6>Nhận xét</h6>
+                            <p>${data.feedback || 'Không có'}</p>
+                        </div>
+                    ` : ''}
+                `;
+                $('#submissionDetails').html(html);
+                new bootstrap.Modal(document.getElementById('viewSubmissionModal')).show();
+            });
+        }
+
+        function gradeSubmission(id) {
+            $('#submissionId').val(id);
+            new bootstrap.Modal(document.getElementById('gradeSubmissionModal')).show();
+        }
+
+        function submitGrade() {
+            const id = $('#submissionId').val();
+            const grade = $('#grade').val();
+            const feedback = $('#feedback').val();
+
+            $.ajax({
+                url: '/api/deadlines/submissions/' + id + '/grade',
+                type: 'PUT',
+                data: {
+                    grade: grade,
+                    feedback: feedback
+                },
+                success: function() {
+                    window.location.reload();
+                },
+                error: function() {
+                    alert('Có lỗi xảy ra khi chấm điểm');
+                }
+            });
+        }
+    </script>
+</body>
+</html> 

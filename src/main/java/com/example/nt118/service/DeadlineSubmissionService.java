@@ -12,4 +12,5 @@ public interface DeadlineSubmissionService {
     DeadlineSubmission getStudentSubmission(String studentId, Long deadlineId);
     DeadlineSubmission getAllSubmissions(Long deadlineId);
     SubmissionDetailResponse getSubmissionDetails(Long submissionId);
+    List<DeadlineSubmission> getSubmissionsByDeadlineId(Long deadlineId);
 } 

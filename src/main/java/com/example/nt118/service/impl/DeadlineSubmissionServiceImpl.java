@@ -200,4 +200,9 @@ public class DeadlineSubmissionServiceImpl implements DeadlineSubmissionService 
         response.setData(data);
         return response;
     }
+
+    @Override
+    public List<DeadlineSubmission> getSubmissionsByDeadlineId(Long deadlineId) {
+        return submissionRepository.findByDeadlineId(deadlineId);
+    }
 } 
