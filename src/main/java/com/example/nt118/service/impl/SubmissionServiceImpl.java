@@ -4,6 +4,7 @@ import com.example.nt118.dto.*;
 import com.example.nt118.model.*;
 import com.example.nt118.repository.*;
 import com.example.nt118.service.SubmissionService;
+import com.example.nt118.dto.SubmissionDetailResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -105,15 +106,15 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     @Override
-    public SubmissionDetailResponse getSubmissionDetail(String submissionId) {
+    public com.example.nt118.dto.SubmissionDetailResponse getSubmissionDetail(String submissionId) {
         DeadlineSubmission submission = submissionRepository.findById(Long.parseLong(submissionId))
                 .orElseThrow(() -> new RuntimeException("Submission not found"));
 
-        SubmissionDetailResponse response = new SubmissionDetailResponse();
+        com.example.nt118.dto.SubmissionDetailResponse response = new com.example.nt118.dto.SubmissionDetailResponse();
         response.setStatus("success");
         response.setMessage("Submission details retrieved successfully");
 
-        SubmissionDetailResponse.SubmissionDetailData data = new SubmissionDetailResponse.SubmissionDetailData();
+        com.example.nt118.dto.SubmissionDetailResponse.SubmissionDetailData data = new com.example.nt118.dto.SubmissionDetailResponse.SubmissionDetailData();
         data.setSubmissionId(submission.getId().toString());
         data.setNotificationId(submission.getDeadline().getId().toString());
         data.setCourseId(submission.getDeadline().getCourse().getCourseId());

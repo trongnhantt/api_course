@@ -93,10 +93,10 @@ public class DeadlineSubmissionController {
             logger.info("Calling submission service...");
             DeadlineSubmission submission = submissionService.submitAssignment(
                 parsedNotificationId,
-                studentId,
-                files,
-                comment,
-                submittedAt
+            studentId,
+            files,
+            comment,
+            submittedAt
             );
             
             logger.info("Submission successful:");
