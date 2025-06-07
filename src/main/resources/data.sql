@@ -378,54 +378,59 @@ start_time = VALUES(start_time),
 end_time = VALUES(end_time),
 room = VALUES(room);
 
--- Insert or update attendance records
-INSERT INTO attendance (course_id, student_id, session_date, status, note)
+-- Insert attendance records for student 20520123
+INSERT INTO attendance (id, course_id, student_id, session_date, status, note)
 VALUES 
--- CS101 Attendance for student 20520123
-('CS101', '20520123', DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY), 'PRESENT', 'Có mặt đầy đủ'),
-('CS101', '20520123', DATE_SUB(CURRENT_DATE, INTERVAL 5 DAY), 'PRESENT', 'Có mặt đầy đủ'),
-('CS101', '20520123', DATE_SUB(CURRENT_DATE, INTERVAL 3 DAY), 'LATE', 'Đi muộn 15 phút'),
-('CS101', '20520123', DATE_SUB(CURRENT_DATE, INTERVAL 1 DAY), 'PRESENT', 'Có mặt đầy đủ'),
-('CS101', '20520123', CURRENT_DATE, 'PRESENT', 'Có mặt đầy đủ'),
+-- CS101 Attendance (15 sessions)
+(1, 'CS101', '20520123', DATE_SUB(CURDATE(), INTERVAL 14 DAY), 'PRESENT', 'On time'),
+(2, 'CS101', '20520123', DATE_SUB(CURDATE(), INTERVAL 13 DAY), 'PRESENT', 'On time'),
+(3, 'CS101', '20520123', DATE_SUB(CURDATE(), INTERVAL 12 DAY), 'LATE', 'Late 15 minutes'),
+(4, 'CS101', '20520123', DATE_SUB(CURDATE(), INTERVAL 11 DAY), 'PRESENT', 'On time'),
+(5, 'CS101', '20520123', DATE_SUB(CURDATE(), INTERVAL 10 DAY), 'ABSENT', 'Sick leave'),
+(6, 'CS101', '20520123', DATE_SUB(CURDATE(), INTERVAL 9 DAY), 'PRESENT', 'On time'),
+(7, 'CS101', '20520123', DATE_SUB(CURDATE(), INTERVAL 8 DAY), 'PRESENT', 'On time'),
+(8, 'CS101', '20520123', DATE_SUB(CURDATE(), INTERVAL 7 DAY), 'PRESENT', 'On time'),
+(9, 'CS101', '20520123', DATE_SUB(CURDATE(), INTERVAL 6 DAY), 'LATE', 'Late 5 minutes'),
+(10, 'CS101', '20520123', DATE_SUB(CURDATE(), INTERVAL 5 DAY), 'PRESENT', 'On time'),
+(11, 'CS101', '20520123', DATE_SUB(CURDATE(), INTERVAL 4 DAY), 'PRESENT', 'On time'),
+(12, 'CS101', '20520123', DATE_SUB(CURDATE(), INTERVAL 3 DAY), 'ABSENT', 'Family emergency'),
+(13, 'CS101', '20520123', DATE_SUB(CURDATE(), INTERVAL 2 DAY), 'PRESENT', 'On time'),
+(14, 'CS101', '20520123', DATE_SUB(CURDATE(), INTERVAL 1 DAY), 'PRESENT', 'On time'),
+(15, 'CS101', '20520123', CURDATE(), 'PRESENT', 'On time'),
 
--- CS102 Attendance for student 20520123
-('CS102', '20520123', DATE_SUB(CURRENT_DATE, INTERVAL 6 DAY), 'PRESENT', 'Có mặt đầy đủ'),
-('CS102', '20520123', DATE_SUB(CURRENT_DATE, INTERVAL 4 DAY), 'ABSENT', 'Vắng có phép'),
-('CS102', '20520123', DATE_SUB(CURRENT_DATE, INTERVAL 2 DAY), 'PRESENT', 'Có mặt đầy đủ'),
-('CS102', '20520123', CURRENT_DATE, 'PRESENT', 'Có mặt đầy đủ'),
+-- CS102 Attendance (15 sessions)
+(16, 'CS102', '20520123', DATE_SUB(CURDATE(), INTERVAL 14 DAY), 'PRESENT', 'On time'),
+(17, 'CS102', '20520123', DATE_SUB(CURDATE(), INTERVAL 13 DAY), 'PRESENT', 'On time'),
+(18, 'CS102', '20520123', DATE_SUB(CURDATE(), INTERVAL 12 DAY), 'PRESENT', 'On time'),
+(19, 'CS102', '20520123', DATE_SUB(CURDATE(), INTERVAL 11 DAY), 'LATE', 'Late 10 minutes'),
+(20, 'CS102', '20520123', DATE_SUB(CURDATE(), INTERVAL 10 DAY), 'PRESENT', 'On time'),
+(21, 'CS102', '20520123', DATE_SUB(CURDATE(), INTERVAL 9 DAY), 'PRESENT', 'On time'),
+(22, 'CS102', '20520123', DATE_SUB(CURDATE(), INTERVAL 8 DAY), 'ABSENT', 'Sick leave'),
+(23, 'CS102', '20520123', DATE_SUB(CURDATE(), INTERVAL 7 DAY), 'PRESENT', 'On time'),
+(24, 'CS102', '20520123', DATE_SUB(CURDATE(), INTERVAL 6 DAY), 'PRESENT', 'On time'),
+(25, 'CS102', '20520123', DATE_SUB(CURDATE(), INTERVAL 5 DAY), 'PRESENT', 'On time'),
+(26, 'CS102', '20520123', DATE_SUB(CURDATE(), INTERVAL 4 DAY), 'LATE', 'Late 20 minutes'),
+(27, 'CS102', '20520123', DATE_SUB(CURDATE(), INTERVAL 3 DAY), 'PRESENT', 'On time'),
+(28, 'CS102', '20520123', DATE_SUB(CURDATE(), INTERVAL 2 DAY), 'PRESENT', 'On time'),
+(29, 'CS102', '20520123', DATE_SUB(CURDATE(), INTERVAL 1 DAY), 'PRESENT', 'On time'),
+(30, 'CS102', '20520123', CURDATE(), 'PRESENT', 'On time'),
 
--- CS103 Attendance for student 20520123
-('CS103', '20520123', DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY), 'PRESENT', 'Có mặt đầy đủ'),
-('CS103', '20520123', DATE_SUB(CURRENT_DATE, INTERVAL 5 DAY), 'PRESENT', 'Có mặt đầy đủ'),
-('CS103', '20520123', DATE_SUB(CURRENT_DATE, INTERVAL 3 DAY), 'PRESENT', 'Có mặt đầy đủ'),
-('CS103', '20520123', DATE_SUB(CURRENT_DATE, INTERVAL 1 DAY), 'LATE', 'Đi muộn 5 phút'),
-('CS103', '20520123', CURRENT_DATE, 'PRESENT', 'Có mặt đầy đủ'),
-
--- CS101 Attendance for student 20520124
-('CS101', '20520124', DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY), 'PRESENT', 'Có mặt đầy đủ'),
-('CS101', '20520124', DATE_SUB(CURRENT_DATE, INTERVAL 5 DAY), 'ABSENT', 'Vắng không phép'),
-('CS101', '20520124', DATE_SUB(CURRENT_DATE, INTERVAL 3 DAY), 'PRESENT', 'Có mặt đầy đủ'),
-('CS101', '20520124', DATE_SUB(CURRENT_DATE, INTERVAL 1 DAY), 'PRESENT', 'Có mặt đầy đủ'),
-('CS101', '20520124', CURRENT_DATE, 'PRESENT', 'Có mặt đầy đủ'),
-
--- CS104 Attendance for student 20520124
-('CS104', '20520124', DATE_SUB(CURRENT_DATE, INTERVAL 6 DAY), 'PRESENT', 'Có mặt đầy đủ'),
-('CS104', '20520124', DATE_SUB(CURRENT_DATE, INTERVAL 4 DAY), 'PRESENT', 'Có mặt đầy đủ'),
-('CS104', '20520124', DATE_SUB(CURRENT_DATE, INTERVAL 2 DAY), 'LATE', 'Đi muộn 10 phút'),
-('CS104', '20520124', CURRENT_DATE, 'PRESENT', 'Có mặt đầy đủ'),
-
--- CS102 Attendance for student 20520125
-('CS102', '20520125', DATE_SUB(CURRENT_DATE, INTERVAL 6 DAY), 'PRESENT', 'Có mặt đầy đủ'),
-('CS102', '20520125', DATE_SUB(CURRENT_DATE, INTERVAL 4 DAY), 'PRESENT', 'Có mặt đầy đủ'),
-('CS102', '20520125', DATE_SUB(CURRENT_DATE, INTERVAL 2 DAY), 'ABSENT', 'Vắng có phép'),
-('CS102', '20520125', CURRENT_DATE, 'PRESENT', 'Có mặt đầy đủ'),
-
--- CS105 Attendance for student 20520125
-('CS105', '20520125', DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY), 'PRESENT', 'Có mặt đầy đủ'),
-('CS105', '20520125', DATE_SUB(CURRENT_DATE, INTERVAL 5 DAY), 'PRESENT', 'Có mặt đầy đủ'),
-('CS105', '20520125', DATE_SUB(CURRENT_DATE, INTERVAL 3 DAY), 'PRESENT', 'Có mặt đầy đủ'),
-('CS105', '20520125', DATE_SUB(CURRENT_DATE, INTERVAL 1 DAY), 'LATE', 'Đi muộn 20 phút'),
-('CS105', '20520125', CURRENT_DATE, 'PRESENT', 'Có mặt đầy đủ')
+-- CS103 Attendance (15 sessions)
+(31, 'CS103', '20520123', DATE_SUB(CURDATE(), INTERVAL 14 DAY), 'PRESENT', 'On time'),
+(32, 'CS103', '20520123', DATE_SUB(CURDATE(), INTERVAL 13 DAY), 'LATE', 'Late 5 minutes'),
+(33, 'CS103', '20520123', DATE_SUB(CURDATE(), INTERVAL 12 DAY), 'PRESENT', 'On time'),
+(34, 'CS103', '20520123', DATE_SUB(CURDATE(), INTERVAL 11 DAY), 'PRESENT', 'On time'),
+(35, 'CS103', '20520123', DATE_SUB(CURDATE(), INTERVAL 10 DAY), 'PRESENT', 'On time'),
+(36, 'CS103', '20520123', DATE_SUB(CURDATE(), INTERVAL 9 DAY), 'ABSENT', 'Sick leave'),
+(37, 'CS103', '20520123', DATE_SUB(CURDATE(), INTERVAL 8 DAY), 'PRESENT', 'On time'),
+(38, 'CS103', '20520123', DATE_SUB(CURDATE(), INTERVAL 7 DAY), 'PRESENT', 'On time'),
+(39, 'CS103', '20520123', DATE_SUB(CURDATE(), INTERVAL 6 DAY), 'PRESENT', 'On time'),
+(40, 'CS103', '20520123', DATE_SUB(CURDATE(), INTERVAL 5 DAY), 'LATE', 'Late 15 minutes'),
+(41, 'CS103', '20520123', DATE_SUB(CURDATE(), INTERVAL 4 DAY), 'PRESENT', 'On time'),
+(42, 'CS103', '20520123', DATE_SUB(CURDATE(), INTERVAL 3 DAY), 'PRESENT', 'On time'),
+(43, 'CS103', '20520123', DATE_SUB(CURDATE(), INTERVAL 2 DAY), 'ABSENT', 'Family emergency'),
+(44, 'CS103', '20520123', DATE_SUB(CURDATE(), INTERVAL 1 DAY), 'PRESENT', 'On time'),
+(45, 'CS103', '20520123', CURDATE(), 'PRESENT', 'On time')
 ON DUPLICATE KEY UPDATE
 course_id = VALUES(course_id),
 student_id = VALUES(student_id),
@@ -563,3 +568,33 @@ INSERT INTO notification_read_status (notification_id, student_id) VALUES
 (2, '20520123'), -- Đã đọc deadline Assignment 1 của CS101
 (4, '20520123'), -- Đã đọc thay đổi lịch học của CS102
 (7, '20520123'); -- Đã đọc thông báo lịch thi giữa kỳ của CS103 
+
+-- Insert future attendance records for student 20520123
+INSERT INTO attendance (id, course_id, student_id, session_date, status, note)
+VALUES 
+-- CS101 Future Sessions
+(46, 'CS101', '20520123', '2025-06-08', 'PENDING', 'Future session'),
+(47, 'CS101', '20520123', '2025-06-09', 'PENDING', 'Future session'),
+(48, 'CS101', '20520123', '2025-06-10', 'PENDING', 'Future session'),
+(49, 'CS101', '20520123', '2025-06-11', 'PENDING', 'Future session'),
+(50, 'CS101', '20520123', '2025-06-12', 'PENDING', 'Future session'),
+
+-- CS102 Future Sessions
+(51, 'CS102', '20520123', '2025-06-08', 'PENDING', 'Future session'),
+(52, 'CS102', '20520123', '2025-06-09', 'PENDING', 'Future session'),
+(53, 'CS102', '20520123', '2025-06-10', 'PENDING', 'Future session'),
+(54, 'CS102', '20520123', '2025-06-11', 'PENDING', 'Future session'),
+(55, 'CS102', '20520123', '2025-06-12', 'PENDING', 'Future session'),
+
+-- CS103 Future Sessions
+(56, 'CS103', '20520123', '2025-06-08', 'PENDING', 'Future session'),
+(57, 'CS103', '20520123', '2025-06-09', 'PENDING', 'Future session'),
+(58, 'CS103', '20520123', '2025-06-10', 'PENDING', 'Future session'),
+(59, 'CS103', '20520123', '2025-06-11', 'PENDING', 'Future session'),
+(60, 'CS103', '20520123', '2025-06-12', 'PENDING', 'Future session')
+ON DUPLICATE KEY UPDATE
+course_id = VALUES(course_id),
+student_id = VALUES(student_id),
+session_date = VALUES(session_date),
+status = VALUES(status),
+note = VALUES(note); 

@@ -26,4 +26,15 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
         @Param("studentId") String studentId,
         @Param("courseId") String courseId
     );
+
+    @Query("SELECT a FROM Attendance a WHERE a.course.courseId = :courseId")
+    List<Attendance> findByCourseId(@Param("courseId") String courseId);
+
+    @Query("SELECT DISTINCT a FROM Attendance a " +
+           "LEFT JOIN FETCH a.course c " +
+           "LEFT JOIN FETCH c.teacher " +
+           "WHERE a.course.courseId = :courseId " +
+           "AND a.student.studentId = :studentId " +
+           "ORDER BY a.sessionDate ASC")
+    List<Attendance> findByCourseIdAndStudentId(@Param("courseId") String courseId, @Param("studentId") String studentId);
 } 
