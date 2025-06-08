@@ -11,7 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -37,8 +40,7 @@ public class WebNotificationController {
             return "teacher/notifications/list";
         } catch (Exception e) {
             logger.error("Error listing notifications for course {}: {}", courseId, e.getMessage());
-            model.addAttribute("error", "Không thể tải danh sách thông báo");
-            return "error";
+            return "redirect:/teacher/dashboard";
         }
     }
 
@@ -57,25 +59,27 @@ public class WebNotificationController {
             return "teacher/notifications/form";
         } catch (Exception e) {
             logger.error("Error showing new notification form for course {}: {}", courseId, e.getMessage());
-            model.addAttribute("error", "Không thể tải form thêm thông báo");
-            return "error";
+            return "redirect:/teacher/notifications/course/" + courseId;
         }
     }
 
     @PostMapping("/course/{courseId}")
-    public String createNotification(@PathVariable String courseId, @ModelAttribute Notification notification, Model model) {
+    public String createNotification(@PathVariable String courseId, 
+                                   @ModelAttribute Notification notification, 
+                                   RedirectAttributes redirectAttributes) {
         try {
             Course course = courseService.getCourseById(courseId);
             notification.setCourse(course);
+            notification.setCreatedAt(LocalDateTime.now());
+            notification.setReadBy(new ArrayList<>());
             notificationService.createNotification(notification);
             
+            redirectAttributes.addFlashAttribute("success", "Thông báo đã được tạo thành công");
             return "redirect:/teacher/notifications/course/" + courseId;
         } catch (Exception e) {
             logger.error("Error creating notification for course {}: {}", courseId, e.getMessage());
-            model.addAttribute("error", "Không thể tạo thông báo mới");
-            model.addAttribute("course", courseService.getCourseById(courseId));
-            model.addAttribute("notification", notification);
-            return "teacher/notifications/form";
+            redirectAttributes.addFlashAttribute("error", "Không thể tạo thông báo mới: " + e.getMessage());
+            return "redirect:/teacher/notifications/course/" + courseId;
         }
     }
 
@@ -91,25 +95,25 @@ public class WebNotificationController {
             return "teacher/notifications/form";
         } catch (Exception e) {
             logger.error("Error showing edit form for notification {}: {}", id, e.getMessage());
-            model.addAttribute("error", "Không thể tải form sửa thông báo");
-            return "error";
+            return "redirect:/teacher/dashboard";
         }
     }
 
     @PostMapping("/{id}")
-    public String updateNotification(@PathVariable Long id, @ModelAttribute Notification notification, Model model) {
+    public String updateNotification(@PathVariable Long id, 
+                                   @ModelAttribute Notification notification,
+                                   RedirectAttributes redirectAttributes) {
         try {
             Notification existingNotification = notificationService.getNotificationById(id);
             notification.setCourse(existingNotification.getCourse());
             notificationService.updateNotification(id, notification);
             
+            redirectAttributes.addFlashAttribute("success", "Thông báo đã được cập nhật thành công");
             return "redirect:/teacher/notifications/course/" + existingNotification.getCourse().getCourseId();
         } catch (Exception e) {
             logger.error("Error updating notification {}: {}", id, e.getMessage());
-            model.addAttribute("error", "Không thể cập nhật thông báo");
-            model.addAttribute("course", notification.getCourse());
-            model.addAttribute("notification", notification);
-            return "teacher/notifications/form";
+            redirectAttributes.addFlashAttribute("error", "Không thể cập nhật thông báo: " + e.getMessage());
+            return "redirect:/teacher/notifications/course/" + notification.getCourse().getCourseId();
         }
     }
 
