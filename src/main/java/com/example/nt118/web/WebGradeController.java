@@ -71,11 +71,25 @@ public class WebGradeController {
         existingGrade.setMidterm(grade.getMidterm());
         existingGrade.setPractice(grade.getPractice());
         existingGrade.setFinalGrade(grade.getFinalGrade());
-        existingGrade.setAverage(grade.getAverage());
-        existingGrade.setLetterGrade(grade.getLetterGrade());
-        existingGrade.setStatus(grade.getStatus());
         
+        // Tính lại average
+        Double mid = grade.getMidterm() != null ? grade.getMidterm() : 0.0;
+        Double prac = grade.getPractice() != null ? grade.getPractice() : 0.0;
+        Double fin = grade.getFinalGrade() != null ? grade.getFinalGrade() : 0.0;
+        double avg = (mid + prac + fin) / 3.0;
+        existingGrade.setAverage(avg);
+        
+        // Tính lại letterGrade
+        String letter;
+        if (avg >= 8.5) letter = "A";
+        else if (avg >= 7.0) letter = "B";
+        else if (avg >= 5.5) letter = "C";
+        else if (avg >= 4.0) letter = "D";
+        else letter = "F";
+        existingGrade.setLetterGrade(letter);
+        
+        existingGrade.setStatus(grade.getStatus());
         gradeRepository.save(existingGrade);
         return "redirect:/teacher/grades/course/" + courseId;
     }
-} 
+}

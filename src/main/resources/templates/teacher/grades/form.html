@@ -8,13 +8,13 @@
 <body>
     <div class="container mt-4">
         <h2>Nhập điểm cho sinh viên <span th:text="${student.name}"></span></h2>
-        <h4>Môn học: <span th:text="${course.name}"></span></h4>
+        <h4>Môn học: <span th:text="${course.courseName}"></span></h4>
         
         <div class="mb-3">
-            <a th:href="@{/teacher/grades/course/{courseId}(courseId=${course.id})}" class="btn btn-secondary">Quay lại danh sách</a>
+            <a th:href="@{/teacher/grades/course/{courseId}(courseId=${course.courseId})}" class="btn btn-secondary">Quay lại danh sách</a>
         </div>
 
-        <form th:action="@{/teacher/grades/course/{courseId}/student/{studentId}(courseId=${course.id}, studentId=${student.studentId})}" 
+        <form th:action="@{/teacher/grades/course/{courseId}/student/{studentId}(courseId=${course.courseId}, studentId=${student.studentId})}" 
               th:object="${grade}" method="post" class="needs-validation" novalidate>
             
             <div class="row mb-3">
@@ -81,4 +81,4 @@
         })()
     </script>
 </body>
-</html> 
+</html>

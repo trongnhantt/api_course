@@ -584,4 +584,4 @@ course_id = VALUES(course_id),
 student_id = VALUES(student_id),
 session_date = VALUES(session_date),
 status = VALUES(status),
-note = VALUES(note); 
+note = VALUES(note);
